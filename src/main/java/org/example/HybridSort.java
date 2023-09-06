@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.Arrays;
+import java.util.Random;
+
 /**
  * HybridSort is a sorting class that uses a combination of quicksort and bubble sort algorithms.
  */
@@ -8,17 +11,23 @@ public class HybridSort {
   /**
    * Threshold value to switch from quicksort to bubble sort.
    */
-  private static final int THRESHOLD = 10; // Bytt til boblesort når arrayet er mindre enn denne størrelsen.
-
+  private static final int THRESHOLD = 10;
 
   public static void main(String[] args) {
-    int[] arr = {12, 4, 5, 6, 7, 3, 1, 15};
-    quicksort(arr, 0, arr.length - 1);
 
-    for (int num : arr) {
-      System.out.print(num + " ");
+    int[] sizes = {100000, 500000, 1000000, 5000000, 10000000, 20000000};
+
+    for (int size : sizes) {
+      int[] randomArray = generateRandomArray(size);
+
+      long startTime = System.currentTimeMillis();
+      quicksort(randomArray, 0, randomArray.length - 1);
+      long endTime = System.currentTimeMillis();
+
+      System.out.println("Datasettstørrelse: " + size);
+      System.out.println("Sortering tok: " + (endTime - startTime) + " millisekunder");
+      System.out.println("-----------------------------------------");
     }
-    System.out.println();
   }
 
   /**
@@ -80,7 +89,7 @@ public class HybridSort {
       }
     }
   }
-  
+
   /**
    * Swaps two elements in an array.
    *
@@ -92,5 +101,22 @@ public class HybridSort {
     int temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
+  }
+
+  /**
+   * Generates a random integer array of a given size.
+   *
+   * @param size The size of the array to generate.
+   * @return     An array of random integers.
+   */
+  public static int[] generateRandomArray(int size) {
+    Random rand = new Random();
+    int[] arr = new int[size];
+
+    for (int i = 0; i < size; i++) {
+      arr[i] = rand.nextInt(100000);  // Genererer tilfeldige tall mellom 0 og 99999
+    }
+
+    return arr;
   }
 }
