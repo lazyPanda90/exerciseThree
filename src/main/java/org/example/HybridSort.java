@@ -11,11 +11,13 @@ public class HybridSort {
   /**
    * Threshold value to switch from quicksort to bubble sort.
    */
-  private static final int THRESHOLD = 10;
+  private static final int THRESHOLD = 100;
+  private static long timeSpentOnBubbleSort = 0;
+  private static long timeSpentOnQuicksort = 0;
 
   public static void main(String[] args) {
 
-    int[] sizes = {100000, 500000, 1000000, 5000000, 10000000, 20000000};
+    int[] sizes = {1000000, 10000000, 20000000};
 
     for (int size : sizes) {
       int[] randomArray = generateRandomArray(size);
@@ -25,8 +27,14 @@ public class HybridSort {
       long endTime = System.currentTimeMillis();
 
       System.out.println("Datasettstørrelse: " + size);
-      System.out.println("Sortering tok: " + (endTime - startTime) + " millisekunder");
+      System.out.println("Total tid: " + (endTime - startTime) + " ms");
+      System.out.println("Tid brukt på BubbleSort: " + timeSpentOnBubbleSort + " ms");
+      System.out.println("Tid brukt på Quicksort: " + timeSpentOnQuicksort + " ms");
       System.out.println("-----------------------------------------");
+
+      // Nullstille tidtakerne for neste runde
+      timeSpentOnBubbleSort = 0;
+      timeSpentOnQuicksort = 0;
     }
   }
 
@@ -38,13 +46,21 @@ public class HybridSort {
    * @param high The ending index for sorting.
    */
   public static void quicksort(int[] arr, int low, int high) {
+    long startTime, endTime;
+
     if (low < high) {
       if (high - low < THRESHOLD) {
+        startTime = System.currentTimeMillis();
         bubbleSort(arr, low, high);
+        endTime = System.currentTimeMillis();
+        timeSpentOnBubbleSort += (endTime - startTime);
         return;
       }
 
+      startTime = System.currentTimeMillis();
       int pivot = partition(arr, low, high);
+      endTime = System.currentTimeMillis();
+      timeSpentOnQuicksort += (endTime - startTime);
 
       quicksort(arr, low, pivot - 1);
       quicksort(arr, pivot + 1, high);
