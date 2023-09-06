@@ -11,13 +11,13 @@ public class HybridSort {
   /**
    * Threshold value to switch from quicksort to bubble sort.
    */
-  private static final int THRESHOLD = 100;
+  private static final int THRESHOLD = 5;
   private static long timeSpentOnBubbleSort = 0;
   private static long timeSpentOnQuicksort = 0;
 
   public static void main(String[] args) {
 
-    int[] sizes = {1000000, 10000000, 20000000};
+    int[] sizes = {1000000, 10000000};
 
     for (int size : sizes) {
       int[] randomArray = generateRandomArray(size);
